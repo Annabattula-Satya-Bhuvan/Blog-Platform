@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlueVerse Blog Platform</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Background Effects -->
+
+    <div class="bg-blur blur-1"></div>
+    <div class="bg-blur blur-2"></div>
+
+    <!-- Navigation -->
+
+    <nav class="navbar glass">
+
+        <div class="logo">
+            <span>BlueVerse</span>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="#home">Home</a>
+            <a href="#posts">Blogs</a>
+            <a href="#dashboard">Dashboard</a>
+
+        </div>
+
+        <div class="nav-actions">
+
+            <button id="themeToggle" class="icon-btn">
+                🌙
+            </button>
+
+            <button id="loginBtn" class="primary-btn">
+                Login
+            </button>
+
+            <button id="registerBtn" class="outline-btn">
+                Register
+            </button>
+
+        </div>
+
+    </nav>
+
+    <!-- Hero -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <span class="hero-badge">
+                Professional Blogging Platform
+            </span>
+
+            <h1>
+                Create.
+                Share.
+                Inspire.
+            </h1>
+
+            <p>
+                A premium blogging experience with modern glassmorphism,
+                dark mode, comments, likes, bookmarks, analytics,
+                and beautiful content sharing.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button class="primary-btn" id="openCreatePost">
+                    Create Blog
+                </button>
+
+                <button class="outline-btn">
+                    Explore Blogs
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Dashboard -->
+
+    <section class="dashboard" id="dashboard">
+
+        <div class="section-title">
+            Platform Statistics
+        </div>
+
+        <div class="stats-grid">
+
+            <div class="stat-card glass">
+
+                <h2 id="totalPosts">
+                    0
+                </h2>
+
+                <p>Total Posts</p>
+
+            </div>
+
+            <div class="stat-card glass">
+
+                <h2 id="totalComments">
+                    0
+                </h2>
+
+                <p>Comments</p>
+
+            </div>
+
+            <div class="stat-card glass">
+
+                <h2 id="totalLikes">
+                    0
+                </h2>
+
+                <p>Likes</p>
+
+            </div>
+
+            <div class="stat-card glass">
+
+                <h2 id="totalBookmarks">
+                    0
+                </h2>
+
+                <p>Bookmarks</p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Search -->
+
+    <section class="search-section">
+
+        <div class="glass search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search blog posts...">
+
+        </div>
+
+    </section>
+
+    <!-- Categories -->
+
+    <section class="categories">
+
+        <button class="category-btn active">
+            All
+        </button>
+
+        <button class="category-btn">
+            Technology
+        </button>
+
+        <button class="category-btn">
+            Programming
+        </button>
+
+        <button class="category-btn">
+            AI
+        </button>
+
+        <button class="category-btn">
+            Design
+        </button>
+
+        <button class="category-btn">
+            Business
+        </button>
+
+    </section>
+
+    <!-- Featured Section -->
+
+    <section class="featured">
+
+        <div class="section-title">
+            Featured Blog
+        </div>
+
+        <div class="featured-card glass">
+
+            <div>
+
+                <span class="featured-tag">
+                    Featured
+                </span>
+
+                <h2>
+                    Welcome to BlueVerse
+                </h2>
+
+                <p>
+                    Share your thoughts, ideas, tutorials,
+                    and stories in a beautiful blogging platform.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- Blog Feed -->
+
+    <section class="posts-section" id="posts">
+
+        <div class="section-title">
+            Latest Blogs
+        </div>
+
+        <div id="postsContainer" class="posts-grid">
+
+            <!-- Dynamic Posts Here -->
+
+        </div>
+
+    </section>
+
+    <!-- Empty State -->
+
+    <section id="emptyState" class="empty-state">
+
+        <h2>
+            No Blog Posts Yet
+        </h2>
+
+        <p>
+            Create your first blog and start sharing your ideas.
+        </p>
+
+    </section>
+
+    <!-- Create Post Modal -->
+
+    <div id="postModal" class="modal">
+
+        <div class="modal-content glass">
+
+            <div class="modal-header">
+
+                <h2>Create Blog Post</h2>
+
+                <button id="closeModal">
+                    ✖
+                </button>
+
+            </div>
+
+            <input
+                type="text"
+                id="postTitle"
+                placeholder="Blog Title">
+
+            <select id="postCategory">
+
+                <option>
+                    Technology
+                </option>
+
+                <option>
+                    Programming
+                </option>
+
+                <option>
+                    AI
+                </option>
+
+                <option>
+                    Design
+                </option>
+
+                <option>
+                    Business
+                </option>
+
+            </select>
+
+            <textarea
+                id="postContent"
+                rows="8"
+                placeholder="Write your blog here..."></textarea>
+
+            <button
+                class="primary-btn full-width"
+                id="publishPost">
+
+                Publish Blog
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Login Modal -->
+
+    <div id="loginModal" class="modal">
+
+        <div class="modal-content glass">
+
+            <div class="modal-header">
+
+                <h2>Login</h2>
+
+                <button class="closeLogin">
+                    ✖
+                </button>
+
+            </div>
+
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Email">
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Password">
+
+            <button
+                id="loginUser"
+                class="primary-btn full-width">
+
+                Login
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Register Modal -->
+
+    <div id="registerModal" class="modal">
+
+        <div class="modal-content glass">
+
+            <div class="modal-header">
+
+                <h2>Create Account</h2>
+
+                <button class="closeRegister">
+                    ✖
+                </button>
+
+            </div>
+
+            <input
+                type="text"
+                id="registerName"
+                placeholder="Username">
+
+            <input
+                type="email"
+                id="registerEmail"
+                placeholder="Email">
+
+            <input
+                type="password"
+                id="registerPassword"
+                placeholder="Password">
+
+            <button
+                id="registerUser"
+                class="primary-btn full-width">
+
+                Register
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Toast Notification -->
+
+    <div id="toast">
+        Notification
+    </div>
+
+    <!-- Scroll To Top -->
+
+    <button id="scrollTop">
+        ↑
+    </button>
+
+    <!-- Footer -->
+
+    <footer>
+
+        <div class="footer-content">
+
+            <h2>
+                BlueVerse
+            </h2>
+
+            <p>
+                Modern Blogging Platform Built with
+                HTML, CSS and JavaScript.
+            </p>
+
+            <p>
+                © 2026 BlueVerse. All Rights Reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
