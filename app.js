@@ -749,3 +749,457 @@ updateNavbar();
 renderPosts();
 
 updateStats();
+
+/* ----------------------------
+   DARK / LIGHT MODE
+---------------------------- */
+
+const themeToggle =
+document.getElementById("themeToggle");
+
+const savedTheme =
+localStorage.getItem("blueverse_theme");
+
+if(savedTheme === "light"){
+
+    document.body.classList.add("light");
+
+    if(themeToggle)
+        themeToggle.textContent = "☀️";
+}
+
+if(themeToggle){
+
+    themeToggle.addEventListener("click",()=>{
+
+        document.body.classList.toggle("light");
+
+        const isLight =
+        document.body.classList.contains("light");
+
+        localStorage.setItem(
+            "blueverse_theme",
+            isLight ? "light" : "dark"
+        );
+
+        themeToggle.textContent =
+        isLight ? "☀️" : "🌙";
+
+    });
+
+}
+
+/* ----------------------------
+   LIVE SEARCH
+---------------------------- */
+
+const searchInput =
+document.getElementById("searchInput");
+
+if(searchInput){
+
+    searchInput.addEventListener("input",(e)=>{
+
+        const value =
+        e.target.value.toLowerCase();
+
+        const cards =
+        document.querySelectorAll(".post-card");
+
+        cards.forEach(card=>{
+
+            const text =
+            card.innerText.toLowerCase();
+
+            card.style.display =
+            text.includes(value)
+            ? "block"
+            : "none";
+
+        });
+
+    });
+
+}
+
+/* ----------------------------
+   CATEGORY FILTER
+---------------------------- */
+
+const categoryButtons =
+document.querySelectorAll(".category-btn");
+
+categoryButtons.forEach(btn=>{
+
+    btn.addEventListener("click",()=>{
+
+        categoryButtons.forEach(
+            b=>b.classList.remove("active")
+        );
+
+        btn.classList.add("active");
+
+        const category =
+        btn.textContent.trim();
+
+        const cards =
+        document.querySelectorAll(".post-card");
+
+        cards.forEach(card=>{
+
+            const postCategory =
+            card.querySelector(
+                ".post-category"
+            ).textContent.trim();
+
+            if(
+                category === "All" ||
+                category === postCategory
+            ){
+
+                card.style.display =
+                "block";
+
+            }else{
+
+                card.style.display =
+                "none";
+
+            }
+
+        });
+
+    });
+
+});
+
+/* ----------------------------
+   READING TIME
+---------------------------- */
+
+function calculateReadingTime(text){
+
+    const words =
+    text.split(" ").length;
+
+    const minutes =
+    Math.ceil(words / 200);
+
+    return minutes;
+}
+
+/* ----------------------------
+   VIEW COUNTER
+---------------------------- */
+
+function increaseView(postId){
+
+    const post =
+    posts.find(
+        p => p.id === postId
+    );
+
+    if(!post) return;
+
+    post.views++;
+
+    savePosts();
+
+    updateStats();
+}
+
+/* ----------------------------
+   TRENDING SCORE
+---------------------------- */
+
+function calculateTrending(post){
+
+    return (
+
+        post.likes * 2 +
+
+        post.comments.length * 3 +
+
+        post.bookmarks * 2 +
+
+        post.views
+
+    );
+
+}
+
+/* ----------------------------
+   SORT TRENDING
+---------------------------- */
+
+function sortTrendingPosts(){
+
+    posts.sort((a,b)=>{
+
+        return calculateTrending(b)
+        -
+        calculateTrending(a);
+
+    });
+
+}
+
+/* ----------------------------
+   RECENT ACTIVITY
+---------------------------- */
+
+let activities =
+JSON.parse(
+localStorage.getItem(
+"blueverse_activities"
+)
+) || [];
+
+function saveActivity(text){
+
+    activities.unshift({
+
+        text,
+
+        time:
+        new Date()
+        .toLocaleString()
+
+    });
+
+    if(
+        activities.length > 20
+    ){
+
+        activities.pop();
+    }
+
+    localStorage.setItem(
+        "blueverse_activities",
+        JSON.stringify(
+            activities
+        )
+    );
+
+}
+
+/* ----------------------------
+   ENHANCED TOAST
+---------------------------- */
+
+function premiumToast(message){
+
+    const toast =
+    document.getElementById(
+        "toast"
+    );
+
+    toast.innerHTML = `
+        ✨ ${message}
+    `;
+
+    toast.classList.add(
+        "show"
+    );
+
+    setTimeout(()=>{
+
+        toast.classList.remove(
+            "show"
+        );
+
+    },3000);
+
+}
+
+/* ----------------------------
+   SCROLL TO TOP
+---------------------------- */
+
+const scrollTopBtn =
+document.getElementById(
+    "scrollTop"
+);
+
+window.addEventListener(
+"scroll",
+()=>{
+
+    if(
+        window.scrollY > 400
+    ){
+
+        scrollTopBtn.classList.add(
+            "show"
+        );
+
+    }else{
+
+        scrollTopBtn.classList.remove(
+            "show"
+        );
+
+    }
+
+});
+
+if(scrollTopBtn){
+
+    scrollTopBtn.addEventListener(
+    "click",
+    ()=>{
+
+        window.scrollTo({
+
+            top:0,
+
+            behavior:"smooth"
+
+        });
+
+    });
+
+}
+
+/* ----------------------------
+   KEYBOARD SHORTCUTS
+---------------------------- */
+
+document.addEventListener(
+"keydown",
+(e)=>{
+
+    /* CTRL + N */
+
+    if(
+        e.ctrlKey &&
+        e.key.toLowerCase() === "n"
+    ){
+
+        e.preventDefault();
+
+        if(currentUser){
+
+            postModal.style.display =
+            "flex";
+
+        }
+
+    }
+
+    /* ESC */
+
+    if(e.key === "Escape"){
+
+        postModal.style.display =
+        "none";
+
+        loginModal.style.display =
+        "none";
+
+        registerModal.style.display =
+        "none";
+
+    }
+
+});
+
+/* ----------------------------
+   POST EXPORT
+---------------------------- */
+
+function exportPosts(){
+
+    const data =
+    JSON.stringify(
+        posts,
+        null,
+        2
+    );
+
+    const blob =
+    new Blob(
+        [data],
+        {
+            type:
+            "application/json"
+        }
+    );
+
+    const link =
+    document.createElement(
+        "a"
+    );
+
+    link.href =
+    URL.createObjectURL(
+        blob
+    );
+
+    link.download =
+    "blueverse-posts.json";
+
+    link.click();
+
+}
+
+/* ----------------------------
+   USER AVATAR
+---------------------------- */
+
+function getAvatar(name){
+
+    if(!name)
+        return "U";
+
+    return name
+    .charAt(0)
+    .toUpperCase();
+
+}
+
+/* ----------------------------
+   WORD COUNTER
+---------------------------- */
+
+const postContent =
+document.getElementById(
+    "postContent"
+);
+
+if(postContent){
+
+    postContent.addEventListener(
+    "input",
+    ()=>{
+
+        const words =
+        postContent.value
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+        .length;
+
+        console.log(
+            "Words:",
+            words
+        );
+
+    });
+
+}
+
+/* ----------------------------
+   TRENDING POSTS INIT
+---------------------------- */
+
+sortTrendingPosts();
+
+/* ----------------------------
+   PERFORMANCE
+---------------------------- */
+
+console.log(
+"%cBlueVerse Loaded Successfully",
+"color:#3b82f6;font-size:16px;font-weight:bold;"
+);
