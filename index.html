@@ -1,37 +1,37 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlueVerse Blog Platform</title>
+    <title>BlueVerse - Premium Blog Platform</title>
 
     <link rel="stylesheet" href="style.css">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-    <!-- Background Effects -->
+    <!-- Background Glow Effects -->
 
     <div class="bg-blur blur-1"></div>
     <div class="bg-blur blur-2"></div>
 
-    <!-- Navigation -->
+    <!-- Navbar -->
 
     <nav class="navbar glass">
 
         <div class="logo">
-            <span>BlueVerse</span>
+            BlueVerse
         </div>
 
         <div class="nav-links">
 
             <a href="#home">Home</a>
-            <a href="#posts">Blogs</a>
             <a href="#dashboard">Dashboard</a>
+            <a href="#trending">Trending</a>
+            <a href="#posts">Blogs</a>
 
         </div>
 
@@ -60,7 +60,7 @@
         <div class="hero-content">
 
             <span class="hero-badge">
-                Professional Blogging Platform
+                Premium Blogging Experience
             </span>
 
             <h1>
@@ -70,19 +70,19 @@
             </h1>
 
             <p>
-                A premium blogging experience with modern glassmorphism,
-                dark mode, comments, likes, bookmarks, analytics,
-                and beautiful content sharing.
+                Build your audience, publish amazing content,
+                interact with readers and grow your ideas with
+                a modern blogging platform.
             </p>
 
             <div class="hero-buttons">
 
-                <button class="primary-btn" id="openCreatePost">
+                <button id="openCreatePost" class="primary-btn">
                     Create Blog
                 </button>
 
                 <button class="outline-btn">
-                    Explore Blogs
+                    Explore Content
                 </button>
 
             </div>
@@ -90,77 +90,61 @@
         </div>
 
     </section>
-    
+
+    <!-- User Profile -->
+
     <section class="profile-section">
-        
+
         <div class="glass profile-card">
-            
-            <div class="avatar" id="avatar">
-                
-                U
+
+            <div id="avatar" class="avatar">
+                G
             </div>
-            
+
             <div>
+
                 <h3 id="profileName">
                     Guest User
                 </h3>
-                
+
                 <p id="profileJoined">
-                    Login to start blogging
+                    Login to start creating content
                 </p>
-                
+
             </div>
-        
+
         </div>
+
     </section>
+
     <!-- Dashboard -->
 
-    <section class="dashboard" id="dashboard">
+    <section id="dashboard" class="dashboard">
 
         <div class="section-title">
-            Platform Statistics
+            Platform Analytics
         </div>
 
         <div class="stats-grid">
 
             <div class="stat-card glass">
-
-                <h2 id="totalPosts">
-                    0
-                </h2>
-
+                <h2 id="totalPosts">0</h2>
                 <p>Total Posts</p>
-
             </div>
 
             <div class="stat-card glass">
-
-                <h2 id="totalComments">
-                    0
-                </h2>
-
+                <h2 id="totalComments">0</h2>
                 <p>Comments</p>
-
             </div>
 
             <div class="stat-card glass">
-
-                <h2 id="totalLikes">
-                    0
-                </h2>
-
+                <h2 id="totalLikes">0</h2>
                 <p>Likes</p>
-
             </div>
 
             <div class="stat-card glass">
-
-                <h2 id="totalBookmarks">
-                    0
-                </h2>
-
+                <h2 id="totalBookmarks">0</h2>
                 <p>Bookmarks</p>
-
             </div>
 
         </div>
@@ -176,7 +160,8 @@
             <input
                 type="text"
                 id="searchInput"
-                placeholder="Search blog posts...">
+                placeholder="Search blogs..."
+            >
 
         </div>
 
@@ -217,43 +202,51 @@
     <section class="featured">
 
         <div class="section-title">
-            Featured Blog
+            Featured Content
         </div>
 
         <div class="featured-card glass">
 
-            <div>
+            <span class="featured-tag">
+                Featured
+            </span>
 
-                <span class="featured-tag">
-                    Featured
-                </span>
+            <h2>
+                Welcome To BlueVerse
+            </h2>
 
-                <h2>
-                    Welcome to BlueVerse
-                </h2>
-
-                <p>
-                    Share your thoughts, ideas, tutorials,
-                    and stories in a beautiful blogging platform.
-                </p>
-
-            </div>
+            <p>
+                Publish stories, tutorials, ideas,
+                and insights with a beautiful modern experience.
+            </p>
 
         </div>
 
     </section>
 
-    <!-- Blog Feed -->
+    <!-- Trending Posts -->
 
-    <section class="posts-section" id="posts">
+    <section id="trending" class="trending-section">
+
+        <div class="section-title">
+            Trending Blogs
+        </div>
+
+        <div id="trendingContainer" class="posts-grid">
+
+        </div>
+
+    </section>
+
+    <!-- Latest Blogs -->
+
+    <section id="posts" class="posts-section">
 
         <div class="section-title">
             Latest Blogs
         </div>
 
         <div id="postsContainer" class="posts-grid">
-
-            <!-- Dynamic Posts Here -->
 
         </div>
 
@@ -268,8 +261,24 @@
         </h2>
 
         <p>
-            Create your first blog and start sharing your ideas.
+            Create your first blog and start sharing ideas.
         </p>
+
+    </section>
+
+    <!-- Activity -->
+
+    <section class="activity-section">
+
+        <div class="section-title">
+            Recent Activity
+        </div>
+
+        <div
+            id="activityContainer"
+            class="activity-card glass">
+
+        </div>
 
     </section>
 
@@ -281,7 +290,7 @@
 
             <div class="modal-header">
 
-                <h2>Create Blog Post</h2>
+                <h2>Create Blog</h2>
 
                 <button id="closeModal">
                     ✖
@@ -292,40 +301,28 @@
             <input
                 type="text"
                 id="postTitle"
-                placeholder="Blog Title">
+                placeholder="Blog Title"
+            >
 
             <select id="postCategory">
 
-                <option>
-                    Technology
-                </option>
-
-                <option>
-                    Programming
-                </option>
-
-                <option>
-                    AI
-                </option>
-
-                <option>
-                    Design
-                </option>
-
-                <option>
-                    Business
-                </option>
+                <option>Technology</option>
+                <option>Programming</option>
+                <option>AI</option>
+                <option>Design</option>
+                <option>Business</option>
 
             </select>
 
             <textarea
                 id="postContent"
                 rows="8"
-                placeholder="Write your blog here..."></textarea>
+                placeholder="Write your blog content..."
+            ></textarea>
 
             <button
-                class="primary-btn full-width"
-                id="publishPost">
+                id="publishPost"
+                class="primary-btn full-width">
 
                 Publish Blog
 
@@ -354,12 +351,14 @@
             <input
                 type="email"
                 id="loginEmail"
-                placeholder="Email">
+                placeholder="Email"
+            >
 
             <input
                 type="password"
                 id="loginPassword"
-                placeholder="Password">
+                placeholder="Password"
+            >
 
             <button
                 id="loginUser"
@@ -392,17 +391,20 @@
             <input
                 type="text"
                 id="registerName"
-                placeholder="Username">
+                placeholder="Username"
+            >
 
             <input
                 type="email"
                 id="registerEmail"
-                placeholder="Email">
+                placeholder="Email"
+            >
 
             <input
                 type="password"
                 id="registerPassword"
-                placeholder="Password">
+                placeholder="Password"
+            >
 
             <button
                 id="registerUser"
@@ -416,29 +418,18 @@
 
     </div>
 
-    <!-- Toast Notification -->
+    <!-- Toast -->
 
     <div id="toast">
         Notification
     </div>
 
-    <!-- Scroll To Top -->
+    <!-- Scroll Top -->
 
     <button id="scrollTop">
         ↑
     </button>
-    <section class="activity-section">
-        
-        <div class="section-title">
-            Recent Activity
-        </div>
-        
-        <div
-            id="activityContainer"
-            class="glass activity-card">
-            
-        </div>
-    </section>
+
     <!-- Footer -->
 
     <footer>
@@ -450,7 +441,7 @@
             </h2>
 
             <p>
-                Modern Blogging Platform Built with
+                Premium Blog Platform Built With
                 HTML, CSS and JavaScript.
             </p>
 
@@ -465,5 +456,5 @@
     <script src="app.js"></script>
 
 </body>
-
 </html>
+```
