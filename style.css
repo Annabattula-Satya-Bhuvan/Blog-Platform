@@ -829,3 +829,86 @@ footer{
         padding:20px;
     }
 }
+
+.profile-section{
+
+    width:90%;
+    margin:40px auto;
+}
+
+.profile-card{
+
+    display:flex;
+    align-items:center;
+    gap:20px;
+
+    padding:25px;
+
+    border-radius:25px;
+}
+
+.avatar{
+
+    width:80px;
+    height:80px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:2rem;
+    font-weight:700;
+
+    background:linear-gradient(
+    135deg,
+    #3b82f6,
+    #60a5fa
+    );
+
+    color:white;
+}
+
+.activity-section{
+
+    margin-top:80px;
+}
+
+.activity-card{
+
+    padding:30px;
+
+    border-radius:25px;
+}
+
+.activity-item{
+
+    padding:15px;
+    margin-bottom:10px;
+
+    border-radius:15px;
+
+    background:rgba(255,255,255,.05);
+}
+
+.reading-time{
+
+    color:#60a5fa;
+    font-size:.85rem;
+}
+
+.trending-badge{
+
+    display:inline-block;
+
+    padding:8px 14px;
+
+    background:#3b82f6;
+
+    color:white;
+
+    border-radius:50px;
+
+    margin-bottom:15px;
+}
