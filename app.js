@@ -11,7 +11,125 @@ let users =
 JSON.parse(localStorage.getItem("blueverse_users")) || [];
 
 let posts =
-JSON.parse(localStorage.getItem("blueverse_posts")) || [];
+JSON.parse(localStorage.getItem("blueverse_posts")) || [
+
+{
+id:1,
+title:"The Future of Artificial Intelligence in 2026",
+category:"AI",
+content:"Artificial Intelligence is transforming industries worldwide. From healthcare diagnostics to autonomous systems, AI is becoming a critical part of innovation. Organizations are investing heavily in machine learning, natural language processing, and generative AI to improve productivity and decision-making.",
+author:"Admin",
+userId:1,
+date:"01/06/2026",
+likes:24,
+bookmarks:12,
+views:245,
+comments:[
+{
+username:"Alex",
+text:"Great overview of the AI landscape."
+},
+{
+username:"Sarah",
+text:"Looking forward to more AI advancements."
+}
+]
+},
+
+{
+id:2,
+title:"10 JavaScript Tips Every Developer Should Know",
+category:"Programming",
+content:"JavaScript remains one of the most popular programming languages. Understanding concepts like closures, async programming, destructuring, and modules can significantly improve code quality and maintainability.",
+author:"Admin",
+userId:1,
+date:"02/06/2026",
+likes:31,
+bookmarks:18,
+views:389,
+comments:[
+{
+username:"David",
+text:"Very useful for beginners."
+}
+]
+},
+
+{
+id:3,
+title:"Building Modern User Interfaces with Glassmorphism",
+category:"Design",
+content:"Glassmorphism combines transparency, blur effects, and vibrant colors to create visually appealing interfaces. It has become a popular trend in modern web applications and dashboard designs.",
+author:"Admin",
+userId:1,
+date:"03/06/2026",
+likes:41,
+bookmarks:23,
+views:512,
+comments:[]
+},
+
+{
+id:4,
+title:"How Startups Scale From 0 to 1 Million Users",
+category:"Business",
+content:"Successful startups focus on solving real problems, validating their ideas, and building strong customer relationships. Scaling requires both technical infrastructure and sustainable business strategies.",
+author:"Admin",
+userId:1,
+date:"04/06/2026",
+likes:52,
+bookmarks:27,
+views:730,
+comments:[
+{
+username:"Emma",
+text:"Excellent business insights."
+}
+]
+},
+
+{
+id:5,
+title:"Why Learning Python Is Still Worth It",
+category:"Programming",
+content:"Python continues to dominate fields such as web development, automation, data science, and artificial intelligence. Its simplicity and extensive ecosystem make it one of the best languages for beginners and professionals alike.",
+author:"Admin",
+userId:1,
+date:"05/06/2026",
+likes:67,
+bookmarks:35,
+views:860,
+comments:[]
+},
+
+{
+id:6,
+title:"Cybersecurity Trends Every Professional Should Know",
+category:"Technology",
+content:"As cyber threats become more sophisticated, organizations are adopting zero-trust architectures, advanced monitoring systems, and AI-powered threat detection to improve security posture.",
+author:"Admin",
+userId:1,
+date:"06/06/2026",
+likes:44,
+bookmarks:19,
+views:620,
+comments:[
+{
+username:"Michael",
+text:"Security is more important than ever."
+}
+]
+}
+];
+
+if (!localStorage.getItem("blueverse_posts")) {
+
+    localStorage.setItem(
+        "blueverse_posts",
+        JSON.stringify(posts)
+    );
+
+}
 
 let currentUser =
 JSON.parse(localStorage.getItem("blueverse_current_user")) || null;
