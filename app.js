@@ -1,485 +1,199 @@
-/* ==========================
-   BLUEVERSE BLOG PLATFORM
-   CORE SYSTEM
-========================== */
 
-/* --------------------------
-   DATABASE
--------------------------- */
+/* =========================
+   BLUEVERSE BLOG PLATFORM
+   FINAL JAVASCRIPT (FULL)
+========================= */
+
+/* -------------------------
+   DATA INIT (IMPORTANT)
+------------------------- */
 
 let users =
 JSON.parse(localStorage.getItem("blueverse_users")) || [];
 
 let posts =
-JSON.parse(localStorage.getItem("blueverse_posts")) || [
+JSON.parse(localStorage.getItem("blueverse_posts"));
 
-{
-id:1,
-title:"The Future of Artificial Intelligence in 2026",
-category:"AI",
-content:"Artificial Intelligence is transforming industries worldwide. From healthcare diagnostics to autonomous systems, AI is becoming a critical part of innovation. Organizations are investing heavily in machine learning, natural language processing, and generative AI to improve productivity and decision-making.",
-author:"Admin",
-userId:1,
-date:"01/06/2026",
-likes:24,
-bookmarks:12,
-views:245,
-comments:[
-{
-username:"Alex",
-text:"Great overview of the AI landscape."
-},
-{
-username:"Sarah",
-text:"Looking forward to more AI advancements."
-}
-]
-},
+if (!posts || posts.length === 0) {
 
-{
-id:2,
-title:"10 JavaScript Tips Every Developer Should Know",
-category:"Programming",
-content:"JavaScript remains one of the most popular programming languages. Understanding concepts like closures, async programming, destructuring, and modules can significantly improve code quality and maintainability.",
-author:"Admin",
-userId:1,
-date:"02/06/2026",
-likes:31,
-bookmarks:18,
-views:389,
-comments:[
-{
-username:"David",
-text:"Very useful for beginners."
-}
-]
-},
+    posts = [
+        {
+            id: 1,
+            title: "Welcome to BlueVerse Blog Platform",
+            category: "Technology",
+            content: "This is your first sample blog. You can create, like, comment, and bookmark posts easily.",
+            author: "Admin",
+            userId: 1,
+            date: "Today",
+            likes: 5,
+            bookmarks: 2,
+            views: 10,
+            comments: [
+                { username: "Alex", text: "Nice platform!" }
+            ]
+        },
+        {
+            id: 2,
+            title: "Modern Web Development Trends",
+            category: "Programming",
+            content: "Learn HTML, CSS, JavaScript and build modern UI applications with glassmorphism design.",
+            author: "Admin",
+            userId: 1,
+            date: "Today",
+            likes: 8,
+            bookmarks: 3,
+            views: 22,
+            comments: []
+        },
+        {
+            id: 3,
+            title: "Why JavaScript is Powerful",
+            category: "Programming",
+            content: "JavaScript runs everywhere — frontend, backend, mobile apps and even AI tools.",
+            author: "Admin",
+            userId: 1,
+            date: "Today",
+            likes: 12,
+            bookmarks: 6,
+            views: 40,
+            comments: [
+                { username: "Sara", text: "Very informative!" }
+            ]
+        }
+    ];
 
-{
-id:3,
-title:"Building Modern User Interfaces with Glassmorphism",
-category:"Design",
-content:"Glassmorphism combines transparency, blur effects, and vibrant colors to create visually appealing interfaces. It has become a popular trend in modern web applications and dashboard designs.",
-author:"Admin",
-userId:1,
-date:"03/06/2026",
-likes:41,
-bookmarks:23,
-views:512,
-comments:[]
-},
-
-{
-id:4,
-title:"How Startups Scale From 0 to 1 Million Users",
-category:"Business",
-content:"Successful startups focus on solving real problems, validating their ideas, and building strong customer relationships. Scaling requires both technical infrastructure and sustainable business strategies.",
-author:"Admin",
-userId:1,
-date:"04/06/2026",
-likes:52,
-bookmarks:27,
-views:730,
-comments:[
-{
-username:"Emma",
-text:"Excellent business insights."
-}
-]
-},
-
-{
-id:5,
-title:"Why Learning Python Is Still Worth It",
-category:"Programming",
-content:"Python continues to dominate fields such as web development, automation, data science, and artificial intelligence. Its simplicity and extensive ecosystem make it one of the best languages for beginners and professionals alike.",
-author:"Admin",
-userId:1,
-date:"05/06/2026",
-likes:67,
-bookmarks:35,
-views:860,
-comments:[]
-},
-
-{
-id:6,
-title:"Cybersecurity Trends Every Professional Should Know",
-category:"Technology",
-content:"As cyber threats become more sophisticated, organizations are adopting zero-trust architectures, advanced monitoring systems, and AI-powered threat detection to improve security posture.",
-author:"Admin",
-userId:1,
-date:"06/06/2026",
-likes:44,
-bookmarks:19,
-views:620,
-comments:[
-{
-username:"Michael",
-text:"Security is more important than ever."
-}
-]
-}
-];
-
-if (!localStorage.getItem("blueverse_posts")) {
-
-    localStorage.setItem(
-        "blueverse_posts",
-        JSON.stringify(posts)
-    );
-
+    localStorage.setItem("blueverse_posts", JSON.stringify(posts));
 }
 
 let currentUser =
 JSON.parse(localStorage.getItem("blueverse_current_user")) || null;
 
-/* --------------------------
+/* -------------------------
+   SAVE HELPERS
+------------------------- */
+
+function savePosts(){
+    localStorage.setItem("blueverse_posts", JSON.stringify(posts));
+}
+
+function saveUsers(){
+    localStorage.setItem("blueverse_users", JSON.stringify(users));
+}
+
+function saveCurrentUser(){
+    localStorage.setItem("blueverse_current_user", JSON.stringify(currentUser));
+}
+
+/* -------------------------
    ELEMENTS
--------------------------- */
+------------------------- */
 
-const postModal =
-document.getElementById("postModal");
+const postsContainer = document.getElementById("postsContainer");
 
-const loginModal =
-document.getElementById("loginModal");
-
-const registerModal =
-document.getElementById("registerModal");
-
-const postsContainer =
-document.getElementById("postsContainer");
-
-/* --------------------------
-   SAVE FUNCTIONS
--------------------------- */
-
-function saveUsers() {
-
-    localStorage.setItem(
-        "blueverse_users",
-        JSON.stringify(users)
-    );
-}
-
-function savePosts() {
-
-    localStorage.setItem(
-        "blueverse_posts",
-        JSON.stringify(posts)
-    );
-}
-
-function saveCurrentUser() {
-
-    localStorage.setItem(
-        "blueverse_current_user",
-        JSON.stringify(currentUser)
-    );
-}
-
-/* --------------------------
+/* -------------------------
    TOAST
--------------------------- */
+------------------------- */
 
-function showToast(message) {
+function showToast(msg){
 
-    const toast =
-    document.getElementById("toast");
+    const toast = document.getElementById("toast");
 
-    toast.textContent = message;
-
+    toast.textContent = msg;
     toast.classList.add("show");
 
     setTimeout(() => {
-
         toast.classList.remove("show");
-
-    }, 2500);
+    }, 2000);
 }
 
-/* --------------------------
+/* -------------------------
    REGISTER
--------------------------- */
+------------------------- */
 
-document
-.getElementById("registerUser")
-.addEventListener("click", () => {
+document.getElementById("registerUser").addEventListener("click", () => {
 
-    const username =
-    document.getElementById("registerName").value;
+    const username = document.getElementById("registerName").value;
+    const email = document.getElementById("registerEmail").value;
+    const password = document.getElementById("registerPassword").value;
 
-    const email =
-    document.getElementById("registerEmail").value;
-
-    const password =
-    document.getElementById("registerPassword").value;
-
-    if (
-        !username ||
-        !email ||
-        !password
-    ) {
-
-        showToast(
-            "Fill all fields"
-        );
-
-        return;
-    }
-
-    const exists =
-    users.find(
-        user => user.email === email
-    );
-
-    if (exists) {
-
-        showToast(
-            "Email already registered"
-        );
-
+    if(!username || !email || !password){
+        showToast("Fill all fields");
         return;
     }
 
     users.push({
-
         id: Date.now(),
-
         username,
         email,
         password,
-
-        joined:
-        new Date()
-        .toLocaleDateString()
-
+        joined: new Date().toLocaleDateString()
     });
 
     saveUsers();
 
-    registerModal.style.display = "none";
+    document.getElementById("registerModal").style.display = "none";
 
-    showToast(
-        "Registration Successful"
-    );
+    showToast("Account Created");
 });
 
-/* --------------------------
+/* -------------------------
    LOGIN
--------------------------- */
+------------------------- */
 
-document
-.getElementById("loginUser")
-.addEventListener("click", () => {
+document.getElementById("loginUser").addEventListener("click", () => {
 
-    const email =
-    document.getElementById("loginEmail").value;
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
 
-    const password =
-    document.getElementById("loginPassword").value;
+    const user = users.find(u => u.email === email && u.password === password);
 
-    const user =
-    users.find(
-
-        user =>
-        user.email === email &&
-        user.password === password
-
-    );
-
-    if (!user) {
-
-        showToast(
-            "Invalid Credentials"
-        );
-
+    if(!user){
+        showToast("Invalid Login");
         return;
     }
 
     currentUser = user;
-
     saveCurrentUser();
 
-    loginModal.style.display = "none";
+    document.getElementById("loginModal").style.display = "none";
 
-    updateNavbar();
+    updateProfile();
 
-    showToast(
-        "Welcome Back " +
-        user.username
-    );
+    showToast("Welcome " + user.username);
 });
 
-/* --------------------------
-   NAVBAR USER
--------------------------- */
-
-function updateNavbar() {
-
-    const loginBtn =
-    document.getElementById("loginBtn");
-
-    const registerBtn =
-    document.getElementById("registerBtn");
-
-    if (!loginBtn || !registerBtn)
-        return;
-
-    if (currentUser) {
-
-        loginBtn.textContent =
-        currentUser.username;
-
-        registerBtn.textContent =
-        "Logout";
-
-        registerBtn.onclick = () => {
-
-            currentUser = null;
-
-            localStorage.removeItem(
-                "blueverse_current_user"
-            );
-
-            location.reload();
-        };
-
-    } else {
-
-        loginBtn.textContent =
-        "Login";
-
-        registerBtn.textContent =
-        "Register";
-    }
-}
-
-/* --------------------------
-   OPEN MODALS
--------------------------- */
-
-document
-.getElementById("openCreatePost")
-.addEventListener("click", () => {
-
-    if (!currentUser) {
-
-        showToast(
-            "Login Required"
-        );
-
-        return;
-    }
-
-    postModal.style.display =
-    "flex";
-});
-
-document
-.getElementById("loginBtn")
-.addEventListener("click", () => {
-
-    if (!currentUser) {
-
-        loginModal.style.display =
-        "flex";
-    }
-});
-
-document
-.getElementById("registerBtn")
-.addEventListener("click", () => {
-
-    if (!currentUser) {
-
-        registerModal.style.display =
-        "flex";
-    }
-});
-
-/* --------------------------
-   CLOSE MODALS
--------------------------- */
-
-document
-.getElementById("closeModal")
-.addEventListener("click", () => {
-
-    postModal.style.display =
-    "none";
-});
-
-document
-.querySelector(".closeLogin")
-.addEventListener("click", () => {
-
-    loginModal.style.display =
-    "none";
-});
-
-document
-.querySelector(".closeRegister")
-.addEventListener("click", () => {
-
-    registerModal.style.display =
-    "none";
-});
-
-/* --------------------------
+/* -------------------------
    CREATE POST
--------------------------- */
+------------------------- */
 
-document
-.getElementById("publishPost")
-.addEventListener("click", () => {
+document.getElementById("publishPost").addEventListener("click", () => {
 
-    const title =
-    document.getElementById("postTitle").value;
+    if(!currentUser){
+        showToast("Login required");
+        return;
+    }
 
-    const category =
-    document.getElementById("postCategory").value;
+    const title = document.getElementById("postTitle").value;
+    const category = document.getElementById("postCategory").value;
+    const content = document.getElementById("postContent").value;
 
-    const content =
-    document.getElementById("postContent").value;
-
-    if (
-        !title ||
-        !content
-    ) {
-
-        showToast(
-            "Complete all fields"
-        );
-
+    if(!title || !content){
+        showToast("Fill all fields");
         return;
     }
 
     const post = {
-
         id: Date.now(),
-
         title,
         category,
         content,
-
-        author:
-        currentUser.username,
-
-        userId:
-        currentUser.id,
-
-        date:
-        new Date()
-        .toLocaleDateString(),
-
+        author: currentUser.username,
+        userId: currentUser.id,
+        date: new Date().toLocaleDateString(),
         likes: 0,
-
-        comments: [],
-
         bookmarks: 0,
-
-        views: 0
+        views: 0,
+        comments: []
     };
 
     posts.unshift(post);
@@ -487,1058 +201,161 @@ document
     savePosts();
 
     renderPosts();
-
     updateStats();
 
-    postModal.style.display =
-    "none";
+    document.getElementById("postModal").style.display = "none";
 
-    showToast(
-        "Blog Published"
-    );
+    showToast("Post Published");
 });
 
-/* --------------------------
-   DELETE POST
--------------------------- */
+/* -------------------------
+   RENDER POSTS
+------------------------- */
 
-function deletePost(id) {
+function renderPosts(){
 
-    const post =
-    posts.find(
-        p => p.id === id
-    );
-
-    if (
-        currentUser &&
-        post.userId === currentUser.id
-    ) {
-
-        posts =
-        posts.filter(
-            p => p.id !== id
-        );
-
-        savePosts();
-
-        renderPosts();
-
-        updateStats();
-
-        showToast(
-            "Post Deleted"
-        );
-    }
-}
-
-/* --------------------------
-   EDIT POST
--------------------------- */
-
-function editPost(id) {
-
-    const post =
-    posts.find(
-        p => p.id === id
-    );
-
-    const newTitle =
-    prompt(
-        "Edit Title",
-        post.title
-    );
-
-    const newContent =
-    prompt(
-        "Edit Content",
-        post.content
-    );
-
-    if (
-        newTitle &&
-        newContent
-    ) {
-
-        post.title =
-        newTitle;
-
-        post.content =
-        newContent;
-
-        savePosts();
-
-        renderPosts();
-
-        showToast(
-            "Post Updated"
-        );
-    }
-}
-
-/* --------------------------
-   LIKE
--------------------------- */
-
-function likePost(id) {
-
-    const post =
-    posts.find(
-        p => p.id === id
-    );
-
-    post.likes++;
-
-    savePosts();
-
-    renderPosts();
-
-    updateStats();
-}
-
-/* --------------------------
-   BOOKMARK
--------------------------- */
-
-function bookmarkPost(id) {
-
-    const post =
-    posts.find(
-        p => p.id === id
-    );
-
-    post.bookmarks++;
-
-    savePosts();
-
-    renderPosts();
-
-    updateStats();
-
-    showToast(
-        "Bookmarked"
-    );
-}
-
-/* --------------------------
-   COMMENTS
--------------------------- */
-
-function addComment(id) {
-
-    if (!currentUser) {
-
-        showToast(
-            "Login Required"
-        );
-
-        return;
-    }
-
-    const input =
-    document.getElementById(
-        "comment-" + id
-    );
-
-    const text =
-    input.value.trim();
-
-    if (!text)
-        return;
-
-    const post =
-    posts.find(
-        p => p.id === id
-    );
-
-    post.comments.push({
-
-        username:
-        currentUser.username,
-
-        text
-    });
-
-    savePosts();
-
-    renderPosts();
-
-    updateStats();
-}
-
-/* --------------------------
-   POSTS RENDER
--------------------------- */
-
-function renderPosts() {
-
-    if (!postsContainer)
-        return;
+    if(!postsContainer) return;
 
     postsContainer.innerHTML = "";
-
-    const empty =
-    document.getElementById(
-        "emptyState"
-    );
-
-    if (posts.length === 0) {
-
-        empty.style.display =
-        "block";
-
-        return;
-    }
-
-    empty.style.display =
-    "none";
 
     posts.forEach(post => {
 
         postsContainer.innerHTML += `
-
         <div class="post-card glass">
 
-            <span class="post-category">
-                ${post.category}
-            </span>
+            <span class="post-category">${post.category}</span>
 
-            <h3 class="post-title">
-                ${post.title}
-            </h3>
+            <h3>${post.title}</h3>
 
-            <p class="post-content">
-                ${post.content}
-            </p>
+            <p>${post.content}</p>
 
-            <small>
-                By ${post.author}
-                • ${post.date}
-            </small>
+            <small>By ${post.author} | ${post.date}</small>
 
             <br><br>
 
-            <div class="post-actions">
-
-                <button
-                class="action-btn"
-                onclick="likePost(${post.id})">
-
-                ❤️ ${post.likes}
-
-                </button>
-
-                <button
-                class="action-btn"
-                onclick="bookmarkPost(${post.id})">
-
-                🔖 ${post.bookmarks}
-
-                </button>
-
-                ${
-                currentUser &&
-                post.userId === currentUser.id
-
-                ?
-
-                `
-                <button
-                class="action-btn"
-                onclick="editPost(${post.id})">
-                ✏️
-                </button>
-
-                <button
-                class="action-btn"
-                onclick="deletePost(${post.id})">
-                🗑️
-                </button>
-                `
-
-                : ""
-                }
-
-            </div>
-
-            <br>
-
-            <input
-            id="comment-${post.id}"
-            placeholder="Write comment..."
-            >
+            <button onclick="likePost(${post.id})">❤️ ${post.likes}</button>
+            <button onclick="bookmarkPost(${post.id})">🔖 ${post.bookmarks}</button>
+            <button onclick="deletePost(${post.id})">🗑️</button>
 
             <br><br>
 
-            <button
-            class="primary-btn"
-            onclick="addComment(${post.id})">
+            <input id="c-${post.id}" placeholder="Write comment">
+            <button onclick="addComment(${post.id})">Comment</button>
 
-            Comment
-
-            </button>
-
-            <br><br>
-
-            ${post.comments.map(comment => `
-
-                <div
-                style="
-                margin-bottom:10px;
-                padding:10px;
-                border-radius:12px;
-                background:rgba(255,255,255,.05);
-                ">
-
-                <b>
-                ${comment.username}
-                </b>
-
-                <br>
-
-                ${comment.text}
-
-                </div>
-
+            ${post.comments.map(c => `
+                <p>💬 <b>${c.username}</b>: ${c.text}</p>
             `).join("")}
 
         </div>
-
         `;
     });
 }
 
-/* --------------------------
-   DASHBOARD STATS
--------------------------- */
-
-function updateStats() {
-
-    const totalPosts =
-    posts.length;
-
-    const totalLikes =
-    posts.reduce(
-        (sum, post) =>
-        sum + post.likes,
-        0
-    );
-
-    const totalBookmarks =
-    posts.reduce(
-        (sum, post) =>
-        sum + post.bookmarks,
-        0
-    );
-
-    const totalComments =
-    posts.reduce(
-        (sum, post) =>
-        sum + post.comments.length,
-        0
-    );
-
-    document.getElementById(
-        "totalPosts"
-    ).textContent =
-    totalPosts;
-
-    document.getElementById(
-        "totalLikes"
-    ).textContent =
-    totalLikes;
-
-    document.getElementById(
-        "totalBookmarks"
-    ).textContent =
-    totalBookmarks;
-
-    document.getElementById(
-        "totalComments"
-    ).textContent =
-    totalComments;
-}
-
-/* --------------------------
-   INIT
--------------------------- */
-
-updateNavbar();
-
-renderPosts();
-
-updateStats();
-
-/* ----------------------------
-   DARK / LIGHT MODE
----------------------------- */
-
-const themeToggle =
-document.getElementById("themeToggle");
-
-const savedTheme =
-localStorage.getItem("blueverse_theme");
-
-if(savedTheme === "light"){
-
-    document.body.classList.add("light");
-
-    if(themeToggle)
-        themeToggle.textContent = "☀️";
-}
-
-if(themeToggle){
-
-    themeToggle.addEventListener("click",()=>{
-
-        document.body.classList.toggle("light");
-
-        const isLight =
-        document.body.classList.contains("light");
-
-        localStorage.setItem(
-            "blueverse_theme",
-            isLight ? "light" : "dark"
-        );
-
-        themeToggle.textContent =
-        isLight ? "☀️" : "🌙";
-
-    });
-
-}
-
-/* ----------------------------
-   LIVE SEARCH
----------------------------- */
-
-const searchInput =
-document.getElementById("searchInput");
-
-if(searchInput){
-
-    searchInput.addEventListener("input",(e)=>{
-
-        const value =
-        e.target.value.toLowerCase();
-
-        const cards =
-        document.querySelectorAll(".post-card");
-
-        cards.forEach(card=>{
-
-            const text =
-            card.innerText.toLowerCase();
-
-            card.style.display =
-            text.includes(value)
-            ? "block"
-            : "none";
-
-        });
-
-    });
-
-}
-
-/* ----------------------------
-   CATEGORY FILTER
----------------------------- */
-
-const categoryButtons =
-document.querySelectorAll(".category-btn");
-
-categoryButtons.forEach(btn=>{
-
-    btn.addEventListener("click",()=>{
-
-        categoryButtons.forEach(
-            b=>b.classList.remove("active")
-        );
-
-        btn.classList.add("active");
-
-        const category =
-        btn.textContent.trim();
-
-        const cards =
-        document.querySelectorAll(".post-card");
-
-        cards.forEach(card=>{
-
-            const postCategory =
-            card.querySelector(
-                ".post-category"
-            ).textContent.trim();
-
-            if(
-                category === "All" ||
-                category === postCategory
-            ){
-
-                card.style.display =
-                "block";
-
-            }else{
-
-                card.style.display =
-                "none";
-
-            }
-
-        });
-
-    });
-
-});
-
-/* ----------------------------
-   READING TIME
----------------------------- */
-
-function calculateReadingTime(text){
-
-    const words =
-    text.split(" ").length;
-
-    const minutes =
-    Math.ceil(words / 200);
-
-    return minutes;
-}
-
-/* ----------------------------
-   VIEW COUNTER
----------------------------- */
-
-function increaseView(postId){
-
-    const post =
-    posts.find(
-        p => p.id === postId
-    );
-
-    if(!post) return;
-
-    post.views++;
-
+/* -------------------------
+   LIKE
+------------------------- */
+
+function likePost(id){
+    const post = posts.find(p => p.id === id);
+    post.likes++;
     savePosts();
+    renderPosts();
+}
 
+/* -------------------------
+   BOOKMARK
+------------------------- */
+
+function bookmarkPost(id){
+    const post = posts.find(p => p.id === id);
+    post.bookmarks++;
+    savePosts();
+    renderPosts();
+}
+
+/* -------------------------
+   DELETE POST
+------------------------- */
+
+function deletePost(id){
+    posts = posts.filter(p => p.id !== id);
+    savePosts();
+    renderPosts();
     updateStats();
 }
 
-/* ----------------------------
-   TRENDING SCORE
----------------------------- */
+/* -------------------------
+   COMMENTS
+------------------------- */
 
-function calculateTrending(post){
+function addComment(id){
 
-    return (
+    const input = document.getElementById("c-" + id);
+    const text = input.value;
 
-        post.likes * 2 +
+    if(!text) return;
 
-        post.comments.length * 3 +
+    const post = posts.find(p => p.id === id);
 
-        post.bookmarks * 2 +
-
-        post.views
-
-    );
-
-}
-
-/* ----------------------------
-   SORT TRENDING
----------------------------- */
-
-function sortTrendingPosts(){
-
-    posts.sort((a,b)=>{
-
-        return calculateTrending(b)
-        -
-        calculateTrending(a);
-
+    post.comments.push({
+        username: currentUser ? currentUser.username : "Guest",
+        text
     });
 
+    savePosts();
+    renderPosts();
 }
 
-/* ----------------------------
-   RECENT ACTIVITY
----------------------------- */
+/* -------------------------
+   DASHBOARD STATS
+------------------------- */
 
-let activities =
-JSON.parse(
-localStorage.getItem(
-"blueverse_activities"
-)
-) || [];
+function updateStats(){
 
-function saveActivity(text){
+    document.getElementById("totalPosts").textContent = posts.length;
 
-    activities.unshift({
+    document.getElementById("totalLikes").textContent =
+        posts.reduce((a,b) => a + b.likes, 0);
 
-        text,
+    document.getElementById("totalBookmarks").textContent =
+        posts.reduce((a,b) => a + b.bookmarks, 0);
 
-        time:
-        new Date()
-        .toLocaleString()
-
-    });
-
-    if(
-        activities.length > 20
-    ){
-
-        activities.pop();
-    }
-
-    localStorage.setItem(
-        "blueverse_activities",
-        JSON.stringify(
-            activities
-        )
-    );
-
+    document.getElementById("totalComments").textContent =
+        posts.reduce((a,b) => a + b.comments.length, 0);
 }
 
-/* ----------------------------
-   ENHANCED TOAST
----------------------------- */
-
-function premiumToast(message){
-
-    const toast =
-    document.getElementById(
-        "toast"
-    );
-
-    toast.innerHTML = `
-        ✨ ${message}
-    `;
-
-    toast.classList.add(
-        "show"
-    );
-
-    setTimeout(()=>{
-
-        toast.classList.remove(
-            "show"
-        );
-
-    },3000);
-
-}
-
-/* ----------------------------
-   SCROLL TO TOP
----------------------------- */
-
-const scrollTopBtn =
-document.getElementById(
-    "scrollTop"
-);
-
-window.addEventListener(
-"scroll",
-()=>{
-
-    if(
-        window.scrollY > 400
-    ){
-
-        scrollTopBtn.classList.add(
-            "show"
-        );
-
-    }else{
-
-        scrollTopBtn.classList.remove(
-            "show"
-        );
-
-    }
-
-});
-
-if(scrollTopBtn){
-
-    scrollTopBtn.addEventListener(
-    "click",
-    ()=>{
-
-        window.scrollTo({
-
-            top:0,
-
-            behavior:"smooth"
-
-        });
-
-    });
-
-}
-
-/* ----------------------------
-   KEYBOARD SHORTCUTS
----------------------------- */
-
-document.addEventListener(
-"keydown",
-(e)=>{
-
-    /* CTRL + N */
-
-    if(
-        e.ctrlKey &&
-        e.key.toLowerCase() === "n"
-    ){
-
-        e.preventDefault();
-
-        if(currentUser){
-
-            postModal.style.display =
-            "flex";
-
-        }
-
-    }
-
-    /* ESC */
-
-    if(e.key === "Escape"){
-
-        postModal.style.display =
-        "none";
-
-        loginModal.style.display =
-        "none";
-
-        registerModal.style.display =
-        "none";
-
-    }
-
-});
-
-/* ----------------------------
-   POST EXPORT
----------------------------- */
-
-function exportPosts(){
-
-    const data =
-    JSON.stringify(
-        posts,
-        null,
-        2
-    );
-
-    const blob =
-    new Blob(
-        [data],
-        {
-            type:
-            "application/json"
-        }
-    );
-
-    const link =
-    document.createElement(
-        "a"
-    );
-
-    link.href =
-    URL.createObjectURL(
-        blob
-    );
-
-    link.download =
-    "blueverse-posts.json";
-
-    link.click();
-
-}
-
-/* ----------------------------
-   USER AVATAR
----------------------------- */
-
-function getAvatar(name){
-
-    if(!name)
-        return "U";
-
-    return name
-    .charAt(0)
-    .toUpperCase();
-
-}
-
-/* ----------------------------
-   WORD COUNTER
----------------------------- */
-
-const postContent =
-document.getElementById(
-    "postContent"
-);
-
-if(postContent){
-
-    postContent.addEventListener(
-    "input",
-    ()=>{
-
-        const words =
-        postContent.value
-        .trim()
-        .split(/\s+/)
-        .filter(Boolean)
-        .length;
-
-        console.log(
-            "Words:",
-            words
-        );
-
-    });
-
-}
-
-/* ----------------------------
-   TRENDING POSTS INIT
----------------------------- */
-
-sortTrendingPosts();
-
-/* ----------------------------
-   PERFORMANCE
----------------------------- */
-
-console.log(
-"%cBlueVerse Loaded Successfully",
-"color:#3b82f6;font-size:16px;font-weight:bold;"
-);
-
-/* ==========================
-   PROFILE PANEL
-========================== */
+/* -------------------------
+   PROFILE
+------------------------- */
 
 function updateProfile(){
 
-    const avatar =
-    document.getElementById(
-        "avatar"
-    );
+    if(!currentUser) return;
 
-    const profileName =
-    document.getElementById(
-        "profileName"
-    );
+    document.getElementById("avatar").textContent =
+        currentUser.username.charAt(0);
 
-    const profileJoined =
-    document.getElementById(
-        "profileJoined"
-    );
-
-    if(!avatar) return;
-
-    if(currentUser){
-
-        avatar.textContent =
-        currentUser.username
-        .charAt(0)
-        .toUpperCase();
-
-        profileName.textContent =
+    document.getElementById("profileName").textContent =
         currentUser.username;
 
-        profileJoined.textContent =
-        "Member since " +
-        currentUser.joined;
-
-    }
-
+    document.getElementById("profileJoined").textContent =
+        "Member since " + currentUser.joined;
 }
 
+/* -------------------------
+   THEME TOGGLE
+------------------------- */
+
+const themeBtn = document.getElementById("themeToggle");
+
+themeBtn.addEventListener("click", () => {
+    document.body.classList.toggle("light");
+});
+
+/* -------------------------
+   INIT
+------------------------- */
+
+renderPosts();
+updateStats();
 updateProfile();
-
-/* ==========================
-   RECENT ACTIVITY
-========================== */
-
-function renderActivities(){
-
-    const container =
-    document.getElementById(
-        "activityContainer"
-    );
-
-    if(!container) return;
-
-    if(
-        activities.length === 0
-    ){
-
-        container.innerHTML =
-        "<p>No activity yet.</p>";
-
-        return;
-    }
-
-    container.innerHTML =
-    activities.map(a=>`
-
-        <div class="activity-item">
-
-            ${a.text}
-
-            <br>
-
-            <small>
-            ${a.time}
-            </small>
-
-        </div>
-
-    `).join("");
-
-}
-
-renderActivities();
-
-/* ==========================
-   TRENDING POSTS
-========================== */
-
-function renderTrending(){
-
-    const container =
-    document.getElementById(
-        "trendingContainer"
-    );
-
-    if(!container) return;
-
-    const trending =
-    [...posts]
-    .sort((a,b)=>{
-
-        return calculateTrending(b)
-        -
-        calculateTrending(a);
-
-    })
-    .slice(0,3);
-
-    container.innerHTML = "";
-
-    trending.forEach(post=>{
-
-        container.innerHTML += `
-
-        <div class="post-card glass">
-
-            <span
-            class="trending-badge">
-
-            🔥 Trending
-
-            </span>
-
-            <h3>
-            ${post.title}
-            </h3>
-
-            <p>
-            ${post.content.substring(
-            0,
-            120
-            )}...
-            </p>
-
-            <br>
-
-            ❤️ ${post.likes}
-
-            •
-
-            💬 ${post.comments.length}
-
-            •
-
-            🔖 ${post.bookmarks}
-
-        </div>
-
-        `;
-
-    });
-
-}
-
-renderTrending();
-
-/* ==========================
-   SHARE POST
-========================== */
-
-function sharePost(id){
-
-    const post =
-    posts.find(
-        p=>p.id===id
-    );
-
-    navigator.clipboard.writeText(
-
-        post.title +
-        "\n\n" +
-        post.content
-
-    );
-
-    premiumToast(
-        "Post copied to clipboard"
-    );
-
-}
-
-/* ==========================
-   EXPORT BUTTON
-========================== */
-
-const exportBtn =
-document.createElement("button");
-
-exportBtn.innerText =
-"Export Blogs";
-
-exportBtn.className =
-"primary-btn";
-
-exportBtn.style.margin =
-"20px";
-
-exportBtn.onclick =
-exportPosts;
-
-document.body.appendChild(
-    exportBtn
-);
-
-/* ==========================
-   READING TIME
-========================== */
-
-function getReadingTime(text){
-
-    const words =
-    text.split(" ").length;
-
-    return Math.ceil(
-        words / 200
-    );
-}
