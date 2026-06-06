@@ -1203,3 +1203,224 @@ console.log(
 "%cBlueVerse Loaded Successfully",
 "color:#3b82f6;font-size:16px;font-weight:bold;"
 );
+
+/* ==========================
+   PROFILE PANEL
+========================== */
+
+function updateProfile(){
+
+    const avatar =
+    document.getElementById(
+        "avatar"
+    );
+
+    const profileName =
+    document.getElementById(
+        "profileName"
+    );
+
+    const profileJoined =
+    document.getElementById(
+        "profileJoined"
+    );
+
+    if(!avatar) return;
+
+    if(currentUser){
+
+        avatar.textContent =
+        currentUser.username
+        .charAt(0)
+        .toUpperCase();
+
+        profileName.textContent =
+        currentUser.username;
+
+        profileJoined.textContent =
+        "Member since " +
+        currentUser.joined;
+
+    }
+
+}
+
+updateProfile();
+
+/* ==========================
+   RECENT ACTIVITY
+========================== */
+
+function renderActivities(){
+
+    const container =
+    document.getElementById(
+        "activityContainer"
+    );
+
+    if(!container) return;
+
+    if(
+        activities.length === 0
+    ){
+
+        container.innerHTML =
+        "<p>No activity yet.</p>";
+
+        return;
+    }
+
+    container.innerHTML =
+    activities.map(a=>`
+
+        <div class="activity-item">
+
+            ${a.text}
+
+            <br>
+
+            <small>
+            ${a.time}
+            </small>
+
+        </div>
+
+    `).join("");
+
+}
+
+renderActivities();
+
+/* ==========================
+   TRENDING POSTS
+========================== */
+
+function renderTrending(){
+
+    const container =
+    document.getElementById(
+        "trendingContainer"
+    );
+
+    if(!container) return;
+
+    const trending =
+    [...posts]
+    .sort((a,b)=>{
+
+        return calculateTrending(b)
+        -
+        calculateTrending(a);
+
+    })
+    .slice(0,3);
+
+    container.innerHTML = "";
+
+    trending.forEach(post=>{
+
+        container.innerHTML += `
+
+        <div class="post-card glass">
+
+            <span
+            class="trending-badge">
+
+            🔥 Trending
+
+            </span>
+
+            <h3>
+            ${post.title}
+            </h3>
+
+            <p>
+            ${post.content.substring(
+            0,
+            120
+            )}...
+            </p>
+
+            <br>
+
+            ❤️ ${post.likes}
+
+            •
+
+            💬 ${post.comments.length}
+
+            •
+
+            🔖 ${post.bookmarks}
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+renderTrending();
+
+/* ==========================
+   SHARE POST
+========================== */
+
+function sharePost(id){
+
+    const post =
+    posts.find(
+        p=>p.id===id
+    );
+
+    navigator.clipboard.writeText(
+
+        post.title +
+        "\n\n" +
+        post.content
+
+    );
+
+    premiumToast(
+        "Post copied to clipboard"
+    );
+
+}
+
+/* ==========================
+   EXPORT BUTTON
+========================== */
+
+const exportBtn =
+document.createElement("button");
+
+exportBtn.innerText =
+"Export Blogs";
+
+exportBtn.className =
+"primary-btn";
+
+exportBtn.style.margin =
+"20px";
+
+exportBtn.onclick =
+exportPosts;
+
+document.body.appendChild(
+    exportBtn
+);
+
+/* ==========================
+   READING TIME
+========================== */
+
+function getReadingTime(text){
+
+    const words =
+    text.split(" ").length;
+
+    return Math.ceil(
+        words / 200
+    );
+}
